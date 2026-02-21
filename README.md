@@ -1,60 +1,69 @@
 # PlayStatus
 
-友達同士でプレイ予定を共有するWebアプリ。
+オンラインゲームやスポーツの練習をする友達同士で、誰が今プレイしているか・する予定かを共有できるWebアプリです。
 
-## セットアップ
+![Next.js](https://img.shields.io/badge/Next.js-15.1-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript)
+![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)
+![Neon](https://img.shields.io/badge/Neon-PostgreSQL-blue?logo=neon)
 
-### 1. 依存関係のインストール
+## デモ
 
-```bash
-npm install
-```
+[https://playstatus.vercel.app](https://playstatus.vercel.app)（デプロイ済みの場合はURLを更新してください）
 
-### 2. 環境変数の設定
+## 主な機能
 
-`.env.example` をコピーして `.env` を作成し、値を設定してください。
-
-```bash
-cp .env.example .env
-```
-
-`.env` に必要な環境変数:
-- `DATABASE_URL`: Neon PostgreSQL の接続URL
-- `NEXTAUTH_SECRET`: ランダムな文字列（例: `openssl rand -base64 32` で生成）
-- `NEXTAUTH_URL`: アプリのURL（開発時は `http://localhost:3000`）
-
-### 3. データベースのセットアップ
-
-Neon でプロジェクトとデータベースを作成したら、マイグレーションを実行します。
-
-```bash
-npm run db:push
-```
-
-### 4. 開発サーバーの起動
-
-```bash
-npm run dev
-```
-
-http://localhost:3000 でアクセスできます。
-
-## デプロイ（Vercel）
-
-1. [Vercel](https://vercel.com) にプロジェクトをインポート（GitHub連携推奨）
-2. 環境変数を設定:
-   - `DATABASE_URL`: Neon の接続URL
-   - `NEXTAUTH_SECRET`: ランダムな文字列
-   - `NEXTAUTH_URL`: デプロイ後のURL（例: `https://your-app.vercel.app`）
-3. デプロイ後、Neon でマイグレーションを実行:
-   ```bash
-   DATABASE_URL="your-neon-url" npm run db:push
-   ```
+- **ルーム管理** … ルーム作成で6桁のIDを発行、IDを共有して友達を招待
+- **カレンダー** … 月・週表示で予定を一覧、日付クリックで予定を追加
+- **イベント** … ゲーム名や練習場所をタイトルに、開始・終了時刻を指定
+- **コメント** … 予定に「自分も行きます」などのコメントを追加
+- **権限管理** … ルームオーナーがメンバー削除・ルーム削除・ルーム名変更が可能
 
 ## 技術スタック
 
-- Next.js 15 (App Router)
-- TypeScript
-- Drizzle ORM + Neon (PostgreSQL)
-- NextAuth.js (Credentials)
-- Tailwind CSS
+| カテゴリ | 技術 |
+|----------|------|
+| フロント | Next.js 15 (App Router), React, TypeScript |
+| スタイル | Tailwind CSS |
+| 認証 | NextAuth.js (Credentials) |
+| データベース | Neon (PostgreSQL), Drizzle ORM |
+| デプロイ | Vercel |
+
+## 開発環境の構築
+
+```bash
+# 依存関係をインストール
+npm install
+
+# 環境変数を設定（.env.example を .env にコピーして編集）
+cp .env.example .env
+
+# データベースにテーブルを作成
+npm run db:push
+
+# 開発サーバーを起動
+npm run dev
+```
+
+`.env` に設定する環境変数：
+
+- `DATABASE_URL` … Neon PostgreSQL の接続URL
+- `NEXTAUTH_SECRET` … セッション用の秘密鍵（`openssl rand -base64 32` で生成）
+- `NEXTAUTH_URL` … アプリのURL（開発時は `http://localhost:3000`）
+
+## プロジェクト構成
+
+```
+src/
+├── app/              # ページ・APIルート
+│   ├── (auth)/       # ログイン・サインアップ
+│   ├── (dashboard)/  # ダッシュボード・ルーム一覧
+│   └── room/         # ルーム内カレンダー
+├── components/       # UIコンポーネント
+├── lib/              # DB・認証の設定
+└── server/actions/   # Server Actions
+```
+
+## ライセンス
+
+MIT
