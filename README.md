@@ -2,7 +2,7 @@
 
 > 友達とプレイ予定を共有しよう
 
-オンラインゲームやスポーツの練習をする友達同士で、**誰が今プレイしているか・する予定か**を共有できるWebアプリケーションです。
+オンラインゲームやスポーツの練習をする友達同士で、**誰が今プレイしているか・する予定か**を共有できるWebアプリです。
 
 **[🔗 アプリを開く](https://play-status.vercel.app/)**
 
@@ -13,41 +13,47 @@
 
 ---
 
-## 概要
+## 紹介
 
 友人とルームを作成し、カレンダーで予定を共有。ゲームのプレイ時間や練習日程を一目で確認できます。
 
-## 主な機能
+- **ルーム管理** … 6桁のIDで招待、シンプルな参加フロー
+- **カレンダー** … 月・週表示、日付クリックで予定追加
+- **イベント** … タイトル・開始〜終了時刻を指定
+- **コメント** … 「自分も行きます」など、参加表明が可能
+- **権限管理** … オーナーがメンバー・ルームの管理を担当
 
-- **ルーム管理** … ルーム作成で6桁のIDを発行、IDを共有して友達を招待
-- **カレンダー** … 月・週表示で予定を一覧、日付クリックで予定を追加
-- **イベント** … ゲーム名や練習場所をタイトルに、開始・終了時刻を指定
-- **コメント** … 予定に「自分も行きます」などのコメントを追加
-- **権限管理** … ルームオーナーがメンバー削除・ルーム削除・ルーム名変更が可能
+---
+
+## 技術のポイント
+
+### フロントエンド
+- **Next.js 15 App Router** … ルートグループ `(auth)` `(dashboard)` でレイアウトを分離
+- **Server Actions** … フォーム送信やデータ更新をサーバー側で実行、`revalidatePath` で即時反映
+- **React Big Calendar** … 月・週ビューに対応したカレンダーUI
+- **Tailwind CSS** … コンポーネント単位のスタイリング
+
+### バックエンド・インフラ
+- **NextAuth.js** … Credentials 認証、JWT セッション（bcrypt でパスワードハッシュ）
+- **Drizzle ORM + Neon (PostgreSQL)** … 型安全なクエリ、サーバーレス対応
+- **Vercel** … Edge/Serverless でのデプロイ
+
+### データベース設計
+- **users / rooms / room_members / events / comments** の正規化されたスキーマ
+- **多対多** … `room_members` でルームとユーザーを関連付け
+- **owner / member** … ロールで権限を制御
+- **cascade delete** … ルーム削除時にイベント・コメントも一括削除
+
+---
 
 ## 技術スタック
 
 | カテゴリ | 技術 |
 |----------|------|
-| フロント | Next.js 15 (App Router), React, TypeScript |
+| フレームワーク | Next.js 15 (App Router), React 19 |
+| 言語 | TypeScript 5.7 |
 | スタイル | Tailwind CSS |
-| 認証 | NextAuth.js (Credentials) |
-| データベース | Neon (PostgreSQL), Drizzle ORM |
+| 認証 | NextAuth.js (Credentials + JWT) |
+| DB / ORM | Neon PostgreSQL, Drizzle ORM |
+| カレンダー | react-big-calendar |
 | デプロイ | Vercel |
-
-## プロジェクト構成
-
-```
-src/
-├── app/              # ページ・APIルート
-│   ├── (auth)/       # ログイン・サインアップ
-│   ├── (dashboard)/  # ダッシュボード・ルーム一覧
-│   └── room/         # ルーム内カレンダー
-├── components/       # UIコンポーネント
-├── lib/              # DB・認証の設定
-└── server/actions/   # Server Actions
-```
-
-## ライセンス
-
-MIT
