@@ -1,15 +1,21 @@
 # PlayStatus
 
-オンラインゲームやスポーツの練習をする友達同士で、誰が今プレイしているか・する予定かを共有できるWebアプリです。
+> 友達とプレイ予定を共有しよう
+
+オンラインゲームやスポーツの練習をする友達同士で、**誰が今プレイしているか・する予定か**を共有できるWebアプリケーションです。
+
+**[🔗 アプリを開く](https://play-status.vercel.app/)**
 
 ![Next.js](https://img.shields.io/badge/Next.js-15.1-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript)
 ![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)
 ![Neon](https://img.shields.io/badge/Neon-PostgreSQL-blue?logo=neon)
 
-## デモ
+---
 
-[https://playstatus.vercel.app](https://playstatus.vercel.app)（デプロイ済みの場合はURLを更新してください）
+## 概要
+
+友人とルームを作成し、カレンダーで予定を共有。ゲームのプレイ時間や練習日程を一目で確認できます。
 
 ## 主な機能
 
@@ -28,28 +34,6 @@
 | 認証 | NextAuth.js (Credentials) |
 | データベース | Neon (PostgreSQL), Drizzle ORM |
 | デプロイ | Vercel |
-
-## 開発環境の構築
-
-```bash
-# 依存関係をインストール
-npm install
-
-# 環境変数を設定（.env.example を .env にコピーして編集）
-cp .env.example .env
-
-# データベースにテーブルを作成
-npm run db:push
-
-# 開発サーバーを起動
-npm run dev
-```
-
-`.env` に設定する環境変数：
-
-- `DATABASE_URL` … Neon PostgreSQL の接続URL
-- `NEXTAUTH_SECRET` … セッション用の秘密鍵（`openssl rand -base64 32` で生成）
-- `NEXTAUTH_URL` … アプリのURL（開発時は `http://localhost:3000`）
 
 ## プロジェクト構成
 
